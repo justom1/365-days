@@ -1,0 +1,126 @@
+/* Page transition */
+.page-fade-enter{ opacity: 0; transform: scale(1.02); }
+.page-fade-enter-active{ opacity: 1; transform: scale(1); transition: all var(--dur-page) var(--ease-soft); }
+
+/* Heartbeat */
+.heart-wrap{
+  position: relative;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.heart-svg{
+  width: 120px;
+  height: 120px;
+  filter: drop-shadow(0 0 25px rgba(255,80,120,.65));
+  animation: heartbeat 1.05s ease-in-out infinite;
+  transform-origin: center;
+}
+@keyframes heartbeat{
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.18); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.1); }
+  60% { transform: scale(1); }
+}
+.heart-ring{
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255,120,150,.4);
+  animation: ringPulse 1.05s ease-out infinite;
+}
+@keyframes ringPulse{
+  0%{ transform: scale(.6); opacity: .8; }
+  100%{ transform: scale(1.6); opacity: 0; }
+}
+
+.hb-line{
+  font-family: var(--font-quote);
+  font-size: clamp(1.4rem, 6vw, 2.2rem);
+  color: var(--text);
+  opacity: 0;
+  margin-top: 1.6rem;
+}
+
+/* Explosion particle (canvas driven, this is just a flash) */
+.flash{
+  position: fixed;
+  inset: 0;
+  background: white;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 200;
+}
+
+/* Loading bar */
+.loading-bar-track{
+  width: min(70vw, 320px);
+  height: 3px;
+  background: rgba(255,255,255,.1);
+  border-radius: 3px;
+  margin-top: 2.2rem;
+  overflow: hidden;
+}
+.loading-bar-fill{
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--glow), var(--accent));
+  box-shadow: 0 0 12px var(--accent);
+  border-radius: 3px;
+}
+
+/* Door */
+.door-wrap{
+  position: relative;
+  width: min(60vw, 220px);
+  height: min(75vw, 320px);
+}
+.door-half{
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 50%;
+  background: linear-gradient(160deg, #1b2436, #0a0f1c);
+  border: 1px solid rgba(255,209,102,.25);
+}
+.door-left{ left: 0; border-radius: 12px 0 0 60px; transform-origin: left center; transition: transform 1.4s var(--ease-soft); }
+.door-right{ right: 0; border-radius: 0 12px 60px 0; transform-origin: right center; transition: transform 1.4s var(--ease-soft); }
+.door-wrap.open .door-left{ transform: rotateY(78deg); }
+.door-wrap.open .door-right{ transform: rotateY(-78deg); }
+.door-glow{
+  position: absolute;
+  inset: 6%;
+  background: radial-gradient(circle, rgba(255,209,102,.5), transparent 70%);
+  filter: blur(20px);
+  z-index: -1;
+}
+
+/* Star / flower tap items float */
+@keyframes floatSlow{
+  0%,100%{ transform: translateY(0px); }
+  50%{ transform: translateY(-14px); }
+}
+
+/* Lantern */
+.lantern{
+  position: absolute;
+  width: 46px;
+  height: 60px;
+  cursor: pointer;
+  animation: floatSlow 5s ease-in-out infinite;
+}
+
+/* fade utility */
+.fade-in{ animation: fadeInUp .9s var(--ease-soft) forwards; }
+@keyframes fadeInUp{
+  from{ opacity: 0; transform: translateY(18px); }
+  to{ opacity: 1; transform: translateY(0); }
+}
+
+.gift-open-particles{ pointer-events:none; }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

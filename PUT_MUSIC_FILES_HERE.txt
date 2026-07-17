@@ -1,0 +1,7 @@
+Rename your 3 mp3 files exactly to:
+  track1.mp3  -> Soft Piano + Space Ambience
+  track2.mp3  -> Warm Piano + Strings
+  track3.mp3  -> Emotional Piano
+
+Upload them straight into the ROOT of the repo (same place as index.html).
+Then delete this txt file. See README.md for free source suggestions.
