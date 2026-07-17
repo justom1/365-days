@@ -34,7 +34,9 @@ const MusicSystem = (() => {
       a.loop = false;
       a.volume = 0;
       a.preload = 'auto';
-      a.crossOrigin = 'anonymous';
+      a.addEventListener('error', () => {
+        console.warn(`Music file missing or failed to load: ${t.src}`);
+      });
       return a;
     });
   }
@@ -54,11 +56,16 @@ const MusicSystem = (() => {
     current = i;
     const a = audios[i];
     if (!a) return;
-    a.currentTime = 0;
     a.volume = 0;
-    const p = a.play();
-    if (p && p.catch) p.catch(() => {});
-    fade(a, muted ? 0 : volume, CROSSFADE_MS);
+    try {
+      const p = a.play();
+      if (p && p.catch) {
+        p.catch(err => console.warn('Music play() blocked or failed:', err));
+      }
+      fade(a, muted ? 0 : volume, CROSSFADE_MS);
+    } catch (err) {
+      console.warn('Music play() threw:', err);
+    }
     updateNowPlaying();
     watchForEnd(a, i);
   }
