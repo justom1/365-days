@@ -144,56 +144,6 @@ h1,h2,h3{ font-family: var(--font-head); font-weight: 500; letter-spacing: .01em
   box-shadow: 0 8px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);
 }
 
-/* Progress dots */
-.progress-dots{
-  position: fixed;
-  right: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  z-index: 50;
-}
-.progress-dots span{
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.2);
-  transition: all .4s var(--ease-soft);
-}
-.progress-dots span.active{
-  background: var(--accent);
-  box-shadow: 0 0 10px var(--accent);
-  height: 20px;
-  border-radius: 4px;
-}
-
-/* Music player */
-.music-player{
-  position: fixed;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
-  z-index: 60;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .6s ease;
-}
-.music-player.visible{ opacity: 1; pointer-events: auto; }
-.music-player button{
-  background: none; border: none; color: var(--text);
-  width: 30px; height: 30px; cursor: pointer;
-  display:flex; align-items:center; justify-content:center;
-}
-.music-player input[type=range]{
-  width: 60px; accent-color: var(--accent);
-}
-.now-playing{ font-size: 0.65rem; color: var(--soft-text); font-family: var(--font-btn); letter-spacing: .05em; white-space:nowrap; }
-
 /* generic tap word/flower grid */
 .tap-field{
   position: relative;

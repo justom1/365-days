@@ -19,21 +19,6 @@ const modeByPage = {
 
 const container = () => document.getElementById('page-container');
 
-/* ---------- Progress dots ---------- */
-function buildDots() {
-  const wrap = document.getElementById('progress-dots');
-  for (let i = 0; i < TOTAL_PAGES; i++) {
-    const s = document.createElement('span');
-    if (i === 0) s.classList.add('active');
-    wrap.appendChild(s);
-  }
-}
-function updateDots() {
-  document.querySelectorAll('#progress-dots span').forEach((d, i) => {
-    d.classList.toggle('active', i === currentPage);
-  });
-}
-
 /* ---------- Page navigation (fetch + swap, no reload) ---------- */
 async function goTo(pageIndex) {
   if (navigating || pageIndex === currentPage || pageIndex < 0 || pageIndex >= TOTAL_PAGES) return;
@@ -63,7 +48,6 @@ async function goTo(pageIndex) {
   gsap.fromTo(el, { opacity: 0, scale: 0.98 }, { opacity: 1, scale: 1, duration: 0.9, ease: 'power2.out' });
 
   wirePage(pageIndex);
-  updateDots();
   navigating = false;
 }
 
@@ -99,7 +83,13 @@ function runHeartbeatIntro() {
     .to('#hb2', { opacity: 1, duration: 0.8 }, 2.4)
     .to('#hb2', { opacity: 0.4, duration: 0.6 }, 4.4)
     .to('#hb3', { opacity: 1, duration: 0.8 }, 4.6)
-    .to('#start-btn', { opacity: 1, duration: 0.8 }, 5.8);
+    .to('#intro-lines', { opacity: 0, duration: 0.7 }, 5.8)
+    .call(() => {
+      document.getElementById('intro-lines').style.display = 'none';
+      const tapEl = document.getElementById('intro-tap');
+      tapEl.style.display = 'flex';
+      gsap.fromTo(tapEl, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.9 });
+    }, null, 6.1);
 }
 
 function beginJourney() {
@@ -108,9 +98,7 @@ function beginJourney() {
   const flash = document.getElementById('flash');
 
   setTimeout(() => {
-    const heart = document.querySelector('.heart-svg');
-    const rect = heart.getBoundingClientRect();
-    Atmosphere.explode(rect.left + rect.width / 2, rect.top + rect.height / 2, 160);
+    Atmosphere.explode(window.innerWidth / 2, window.innerHeight / 2, 160);
     gsap.to(flash, { opacity: 0.35, duration: 0.15, yoyo: true, repeat: 1, onComplete: () => { flash.style.opacity = 0; } });
     Heartbeat.whoosh();
     setTimeout(() => goTo(1), 500);
@@ -365,22 +353,8 @@ function injectNoteOverlay() {
 
 /* ---------- Wire up (runs once) ---------- */
 document.addEventListener('DOMContentLoaded', () => {
-  buildDots();
   injectNoteOverlay();
   runHeartbeatIntro();
 
   document.getElementById('start-btn').addEventListener('click', beginJourney);
-
-  // Music controls (persist for the whole session)
-  const toggleBtn = document.getElementById('music-toggle');
-  const iconPlay = document.getElementById('icon-play');
-  const iconPause = document.getElementById('icon-pause');
-  toggleBtn.addEventListener('click', () => {
-    const muted = MusicSystem.toggleMute();
-    iconPlay.style.display = muted ? 'block' : 'none';
-    iconPause.style.display = muted ? 'none' : 'block';
-  });
-  document.getElementById('volume').addEventListener('input', e => {
-    MusicSystem.setVolume(parseFloat(e.target.value));
-  });
 });

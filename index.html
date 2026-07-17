@@ -16,33 +16,30 @@
 <canvas id="bg-canvas"></canvas>
 <div class="flash" id="flash"></div>
 
-<div class="progress-dots" id="progress-dots"></div>
-
-<div class="music-player" id="music-player">
-  <button id="music-toggle" aria-label="Play / Pause">
-    <svg id="icon-play" width="16" height="16" viewBox="0 0 24 24" fill="#FFD166"><path d="M8 5v14l11-7z"/></svg>
-    <svg id="icon-pause" width="16" height="16" viewBox="0 0 24 24" fill="#FFD166" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-  </button>
-  <input type="range" id="volume" min="0" max="1" step="0.01" value="0.6">
-  <span class="now-playing" id="now-playing"></span>
-</div>
-
 <div class="app" id="app">
   <!-- PAGE CONTENT LOADS HERE. Page 0 (heartbeat intro) is inline below
        for instant first paint. Pages 1–10 are fetched on demand from
        html1.html … html10.html and swapped in — no reload, so audio
        never restarts. -->
   <section class="screen active" id="page-container" data-page="0">
-    <div class="heart-wrap">
-      <div class="heart-ring"></div>
-      <svg class="heart-svg" viewBox="0 0 32 29">
-        <path fill="#ff5c7a" d="M16 29S0 18.5 0 8.8C0 3.9 3.9 0 8.7 0c2.8 0 5.4 1.4 7.3 3.6C17.9 1.4 20.5 0 23.3 0 28.1 0 32 3.9 32 8.8 32 18.5 16 29 16 29z"/>
-      </svg>
+    <div id="intro-lines">
+      <div class="heart-wrap">
+        <div class="heart-ring"></div>
+        <svg class="heart-svg" viewBox="0 0 32 29">
+          <path fill="#ff5c7a" d="M16 29S0 18.5 0 8.8C0 3.9 3.9 0 8.7 0c2.8 0 5.4 1.4 7.3 3.6C17.9 1.4 20.5 0 23.3 0 28.1 0 32 3.9 32 8.8 32 18.5 16 29 16 29z"/>
+        </svg>
+      </div>
+      <p class="hb-line" id="hb1">You are my heartbeat.</p>
+      <p class="hb-line" id="hb2">For My Miss Universe ❤️</p>
+      <p class="hb-line" id="hb3">Let's begin our little universe…</p>
     </div>
-    <p class="hb-line" id="hb1">You are my heartbeat.</p>
-    <p class="hb-line" id="hb2">For My Miss Universe ❤️</p>
-    <p class="hb-line" id="hb3">Let's begin our little universe…</p>
-    <button class="btn fade-in" id="start-btn" style="margin-top:2.4rem; opacity:0;">Begin</button>
+
+    <div id="intro-tap" style="display:none;">
+      <p class="eyebrow">Before we begin</p>
+      <h2 class="headline">Tap to Begin</h2>
+      <p class="sub">Turn your sound on for the full experience.</p>
+      <button class="btn" id="start-btn" style="margin-top:2.2rem;">Begin</button>
+    </div>
   </section>
 </div>
 
