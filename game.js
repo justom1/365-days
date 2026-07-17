@@ -8,7 +8,8 @@ const StarGame = (() => {
   let stars = [];
   let basketX = 0;
   let caught = 0;
-  const GOAL = 25;
+  const GOAL = 10;
+  const MAX_CONCURRENT = 6;
   let running = false;
   let onComplete = null;
   let spawnTimer = null;
@@ -49,6 +50,7 @@ const StarGame = (() => {
   }
 
   function spawnStar() {
+    if (stars.length >= MAX_CONCURRENT) return;
     stars.push({
       x: Math.random() * (w - 40) + 20,
       y: -20,
@@ -64,7 +66,7 @@ const StarGame = (() => {
     stars = [];
     running = true;
     clearInterval(spawnTimer);
-    spawnTimer = setInterval(() => { if (running) spawnStar(); }, 550);
+    spawnTimer = setInterval(() => { if (running) spawnStar(); }, 700);
     requestAnimationFrame(t => loop(t, hudEl));
   }
 
@@ -77,6 +79,15 @@ const StarGame = (() => {
     ctx.save();
     ctx.translate(x, y);
     ctx.rotate(rot);
+    // cheap glow: soft radial gradient instead of shadowBlur (much lighter on mobile GPUs)
+    const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, r * 2.2);
+    glow.addColorStop(0, 'rgba(255,209,102,0.55)');
+    glow.addColorStop(1, 'rgba(255,209,102,0)');
+    ctx.fillStyle = glow;
+    ctx.beginPath();
+    ctx.arc(0, 0, r * 2.2, 0, Math.PI * 2);
+    ctx.fill();
+
     ctx.beginPath();
     for (let i = 0; i < 5; i++) {
       ctx.lineTo(Math.cos((18 + i * 72) * Math.PI / 180) * r, -Math.sin((18 + i * 72) * Math.PI / 180) * r);
@@ -84,8 +95,6 @@ const StarGame = (() => {
     }
     ctx.closePath();
     ctx.fillStyle = '#FFD166';
-    ctx.shadowColor = '#FFD166';
-    ctx.shadowBlur = 16;
     ctx.fill();
     ctx.restore();
   }
@@ -99,8 +108,6 @@ const StarGame = (() => {
     ctx.save();
     ctx.strokeStyle = 'rgba(142,197,255,.9)';
     ctx.lineWidth = 3;
-    ctx.shadowColor = '#8EC5FF';
-    ctx.shadowBlur = 12;
     ctx.beginPath();
     ctx.moveTo(basketX - 32, basketY);
     ctx.lineTo(basketX + 32, basketY);
@@ -120,7 +127,7 @@ const StarGame = (() => {
         caught++;
         updateHud(hudEl);
         if (typeof Heartbeat !== 'undefined') Heartbeat.sparkle();
-        if (typeof Atmosphere !== 'undefined') Atmosphere.explode(s.x, s.y, 24);
+        if (typeof Atmosphere !== 'undefined') Atmosphere.explode(s.x, s.y, 10);
       }
     });
 

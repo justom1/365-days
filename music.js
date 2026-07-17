@@ -24,7 +24,7 @@ const MusicSystem = (() => {
   let audios = [];
   let current = 0;
   let started = false;
-  let volume = 0.55;
+  let volume = 0.6;
   let muted = false;
   let checkTimer = null;
 

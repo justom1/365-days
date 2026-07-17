@@ -64,13 +64,7 @@ async function goTo(pageIndex) {
 
   wirePage(pageIndex);
   updateDots();
-  updateSkipVisibility();
   navigating = false;
-}
-
-function updateSkipVisibility() {
-  const skip = document.getElementById('skip-btn');
-  skip.classList.toggle('visible', currentPage > 0 && currentPage < 10);
 }
 
 /* ---------- Wire up whatever just got injected ---------- */
@@ -376,11 +370,6 @@ document.addEventListener('DOMContentLoaded', () => {
   runHeartbeatIntro();
 
   document.getElementById('start-btn').addEventListener('click', beginJourney);
-
-  document.getElementById('skip-btn').addEventListener('click', () => {
-    if (!MusicSystem.started) MusicSystem.start();
-    goTo(Math.min(currentPage + 1, 10));
-  });
 
   // Music controls (persist for the whole session)
   const toggleBtn = document.getElementById('music-toggle');

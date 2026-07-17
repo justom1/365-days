@@ -304,26 +304,6 @@ h1,h2,h3{ font-family: var(--font-head); font-weight: 500; letter-spacing: .01em
 }
 .puzzle-piece.placed{ opacity: 1; }
 
-.skip-btn{
-  position: fixed;
-  top: 18px;
-  right: 18px;
-  z-index: 60;
-  font-family: var(--font-btn);
-  font-size: .7rem;
-  letter-spacing: .1em;
-  color: var(--soft-text);
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.15);
-  padding: .5rem 1rem;
-  border-radius: 999px;
-  cursor: pointer;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .4s ease;
-}
-.skip-btn.visible{ opacity: .7; pointer-events: auto; }
-
 .game-hud{
   position: absolute;
   top: 8vh;
